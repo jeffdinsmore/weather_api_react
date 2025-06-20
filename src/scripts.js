@@ -102,6 +102,7 @@ export const fetchWeatherData = async (
       //SinceRain++;
       //}
       let rainData = getRainData(idxToday, idxYesterday, precips, dates);
+      console.log("rain", rainData[0]);
       setDaysSinceRain(rainData[0]);
       setNextRain(rainData[1]);
       //document.getElementById("days-since-rain").textContent = daysSinceRain;

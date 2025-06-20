@@ -41,23 +41,16 @@ function App() {
     }
     loadData();
     displayStoredWateredTime();
-    updateWateredTimestamp(setWeather, setLastWatered);
   }, []);
 
-  /*function App() {
-  useEffect(() => {
-  async function loadData() {
-    const data = await fetchWeatherData();
-    console.log("Weather:", data);
-  }
-  loadData();
-  displayStoredWateredTime();
-  updateWateredTimestamp();
-  wateredToday();
-  wateredYesterday();
-}, []);*/
   const [count, setCount] = useState(0);
-  console.log("my oh my", weather);
+  console.log("my oh my", weather, daysSinceRain);
+
+  /*<div className="card">
+        <button onClick={() => setCount((count) => count + 1)}>
+          count is {count}
+        </button>
+      </div>*/
   return (
     <>
       <h1>Weather Tracker</h1>
@@ -92,7 +85,7 @@ function App() {
           <p>
             Days Since Last Rain:{" "}
             <span id="days-since-rain">
-              {daysSinceRain ? daysSinceRain : "Loading..."}
+              {daysSinceRain || daysSinceRain === 0 ? daysSinceRain : "Loading..."}
             </span>
           </p>
           <p>
@@ -108,11 +101,6 @@ function App() {
         I watered the plants
       </button>
       <p id="last-watered">{displayStoredWateredTime(setWeather)}</p>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-      </div>
     </>
   );
 }
