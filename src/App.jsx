@@ -18,6 +18,7 @@ function App() {
   const [nextRain, setNextRain] = useState("");
   const [lastWatered, setLastWatered] = useState("");
   const [dateToday, setDateToday] = useState("");
+  const [isWateredToday, setIsWateredToday] = useState("");
   const [weather, setWeather] = useState({
     apiCalls: 0,
     lastWatered: null,
@@ -37,15 +38,13 @@ function App() {
         setNextRain,
         weather
       );
-      console.log("weather, ", data);
     }
     loadData();
     displayStoredWateredTime();
   }, []);
 
-  const [count, setCount] = useState(0);
-  console.log("my oh my", weather, daysSinceRain);
-
+  //const [count, setCount] = useState(0);
+  console.log("my oh my", weather);
   /*<div className="card">
         <button onClick={() => setCount((count) => count + 1)}>
           count is {count}
@@ -85,7 +84,9 @@ function App() {
           <p>
             Days Since Last Rain:{" "}
             <span id="days-since-rain">
-              {daysSinceRain || daysSinceRain === 0 ? daysSinceRain : "Loading..."}
+              {daysSinceRain || daysSinceRain === 0
+                ? daysSinceRain
+                : "Loading..."}
             </span>
           </p>
           <p>
@@ -96,7 +97,10 @@ function App() {
       </div>
       <button
         id="water-button"
-        onClick={() => updateWateredTimestamp(setWeather, setLastWatered)}
+        onClick={() =>
+          updateWateredTimestamp(setWeather, setLastWatered, setIsWateredToday)
+        }
+        disabled={isWateredToday}
       >
         I watered the plants
       </button>
