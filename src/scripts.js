@@ -106,7 +106,7 @@ export const fetchWeatherData = async (
     }
   }
 
-  if (wateredToday()) {
+  if (wateredToday(weatherObject.lastWatered)) {
     console.log("Already watered today!");
   } else {
     console.log("You haven't watered the plants today.");
@@ -141,6 +141,7 @@ function setTheDate(weatherObject, setDateToday, setWeather, weather) {
 
 function getRainData(idxYesterday, idxToday, precips, dates) {
   let SinceRain = 0;
+  console.log("yes", idxYesterday, idxToday, precips[idxYesterday - 1]);
   for (let i = idxYesterday; i >= 0; i--) {
     if (precips[i] > 0) break;
     SinceRain++;
@@ -148,9 +149,13 @@ function getRainData(idxYesterday, idxToday, precips, dates) {
 
   let nRain = "None in next 7 days";
   for (let i = idxToday + 1; i < precips.length; i++) {
+
     if (precips[i] > 0) {
       const nextDate = new Date(dates[i + 1]);
       nRain = nextDate.toDateString();
+      if (wateredToday(nRain)) {
+        nRain = "Today, " + nRain;
+      }
       break;
     }
   }
@@ -179,14 +184,14 @@ export function updateWateredTimestamp(
   setIsWateredToday(true);
 }
 
-export function displayStoredWateredTime(setWeather) {
+export function displayStoredWateredTime() {
   let tempObject = JSON.parse(localStorage.getItem("weatherObject"));
   const last = tempObject ? tempObject.lastWatered : false;
   if (last) {
     const lastDate = new Date(last);
-    if (wateredToday()) {
+    if (wateredToday(last)) {
       return "The plants were watered today";
-    } else if (wateredYesterday()) {
+    } else if (wateredYesterday(last)) {
       return "The plants were watered yesterday";
     } else {
       const now = new Date();
@@ -207,9 +212,7 @@ export function displayStoredWateredTime(setWeather) {
   return "The plants have never been watered";
 }
 
-function wateredToday() {
-  let tempObject = JSON.parse(localStorage.getItem("weatherObject"));
-  const last = tempObject.lastWatered;
+function wateredToday(last) {
 
   if (!last) return false;
 
@@ -223,10 +226,7 @@ function wateredToday() {
   );
 }
 
-export function wateredYesterday() {
-  let tempObject = JSON.parse(localStorage.getItem("weatherObject"));
-
-  const last = tempObject.lastWatered;
+export function wateredYesterday(last) {
 
   if (!last) return false;
 
