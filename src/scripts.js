@@ -10,7 +10,7 @@ export function setObject(setWeather, weather) {
     // First-time setup
     weatherObject = {
       apiCalls: 0,
-      lastWatered: new Date("06-15-2025"),
+      lastWatered: new Date("2025-06-15T20:00:00.000Z"),
       date: null,
     };
     localStorage.setItem("weatherObject", JSON.stringify(weatherObject));
@@ -20,7 +20,7 @@ export function setObject(setWeather, weather) {
   }
   setWeather((prev) => ({
     ...prev,
-    apiCalls: weatherObject.apiCalls + 1,
+    apiCalls: weatherObject.apiCalls,
     lastWatered: weatherObject.lastWatered,
     date: weatherObject.date,
   }));
@@ -108,6 +108,7 @@ export const fetchWeatherData = async (
   } else {
     console.log("You haven't watered the plants today.");
   }
+  console.log("we", weatherObject);
   return weatherObject;
 };
 
