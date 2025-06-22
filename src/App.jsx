@@ -57,7 +57,7 @@ function App() {
   return (
     <>
       <h1>Weather Tracker</h1>
-      <p>
+      <p style={{ color: "black" }}>
         Checking weather for: <strong>Portland, Oregon</strong>
       </p>
       <div id="weather">
