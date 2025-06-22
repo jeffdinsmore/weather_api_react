@@ -1,6 +1,6 @@
-# _Weather_Api and Rain Tracker - React + Vite_
+# _Weather_Api And Rain Tracker - React + Vite_
 
-### _rain/weather tracker displays today, tomorrow, and yesterdays temperature with rain in the next and last 7 days._
+### Rain/weather tracker displays today, tomorrow, and yesterdays temperature with rain in the next and last 7 days.
 
 #### Author: _Jeff Dinsmore_
 
@@ -43,10 +43,10 @@ _Any known issues, please reach out to Jeff Dinsmore by email at hello@jeffdinsm
 
 ## License
 
-GNU General Public License v3.0
-Copyright (c) 2025, **_Jeff Dinsmore_**
+GNU General Public License v3.0<br>
+**Copyright (c) 2025, _Jeff Dinsmore_**
 
-This software is licensed under the MIT license.
+This software is licensed under the GNU license.
 
 ## Vite / React Info
 
