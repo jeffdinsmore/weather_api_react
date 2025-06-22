@@ -92,3 +92,8 @@ p {
   color: #ffffff;
   margin-top: 10px;
 }
+
+.too-many-times {
+  color: #ff0000;
+  font-size: 24px;
+}

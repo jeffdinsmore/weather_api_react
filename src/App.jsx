@@ -19,6 +19,8 @@ function App() {
   const [lastWatered, setLastWatered] = useState("");
   const [dateToday, setDateToday] = useState("");
   const [isWateredToday, setIsWateredToday] = useState("");
+  const [apiTooManyTimes, setApiTooManyTimes] = useState("");
+  const [isVisible, setIsVisible] = useState("");
   const [weather, setWeather] = useState({
     apiCalls: 0,
     lastWatered: null,
@@ -36,6 +38,8 @@ function App() {
         setTempTomorrow,
         setDaysSinceRain,
         setNextRain,
+        setApiTooManyTimes,
+        setIsVisible,
         weather
       );
     }
@@ -44,7 +48,7 @@ function App() {
   }, []);
 
   //const [count, setCount] = useState(0);
-  console.log("my oh my", weather);
+  console.log("my oh my", weather, isVisible);
   /*<div className="card">
         <button onClick={() => setCount((count) => count + 1)}>
           count is {count}
@@ -105,6 +109,11 @@ function App() {
         I watered the plants
       </button>
       <p id="last-watered">{displayStoredWateredTime(setWeather)}</p>
+      {isVisible && (
+        <div className="weather-box box">
+          <span className="too-many-times">{apiTooManyTimes}</span>
+        </div>
+      )}
     </>
   );
 }

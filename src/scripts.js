@@ -12,27 +12,20 @@ export function setObject(setWeather, weather) {
     // First-time setup
     weatherObject = {
       apiCalls: 0,
-      lastWatered: null,
+      lastWatered: new Date("06-15-2025"),
       date: null,
     };
     localStorage.setItem("weatherObject", JSON.stringify(weatherObject));
-    setWeather((prev) => ({
-      ...prev,
-      apiCalls: weatherObject.apiCalls + 1,
-      lastWatered: weatherObject.lastWatered,
-      date: weatherObject.date,
-    }));
     console.log("Object has been created and saved successfully");
   } else {
-    setWeather(weatherObject);
-    setWeather((prev) => ({
-      ...prev,
-      apiCalls: weatherObject.apiCalls + 1,
-      lastWatered: weatherObject.lastWatered,
-      date: weatherObject.date,
-    }));
     console.log("Object already exists");
   }
+  setWeather((prev) => ({
+    ...prev,
+    apiCalls: weatherObject.apiCalls + 1,
+    lastWatered: weatherObject.lastWatered,
+    date: weatherObject.date,
+  }));
 }
 
 export const fetchWeatherData = async (
@@ -43,14 +36,15 @@ export const fetchWeatherData = async (
   setTempTomorrow,
   setDaysSinceRain,
   setNextRain,
+  setApiTooManyTimes,
+  setIsVisible,
   weather
 ) => {
   let weatherObject = JSON.parse(localStorage.getItem("weatherObject"));
   const lat = 45.523064; // Updated Portland latitude
   const lon = -122.676483; // Updated Portland longitude
 
-  weatherObject = setTheDate(weatherObject, setDateToday, setWeather, weather);
-  console.log("WeatherObject", weatherObject);
+  setTheDate(weatherObject, setDateToday, setWeather, weather);
 
   const today = new Date();
   const yesterday = new Date(today);
@@ -101,9 +95,15 @@ export const fetchWeatherData = async (
       }));
       localStorage.setItem("weatherObject", JSON.stringify(weatherObject));
       console.log(`API has been called ${weatherObject.apiCalls} times today`);
+      setIsVisible(false);
     } catch (error) {
       console.error("Error fetching weather:", error);
     }
+  } else {
+    setIsVisible(true);
+    setApiTooManyTimes(
+      "You have called the api too many times today. Try again tomorrow."
+    );
   }
 
   if (wateredToday(weatherObject.lastWatered)) {
@@ -141,7 +141,7 @@ function setTheDate(weatherObject, setDateToday, setWeather, weather) {
 
 function getRainData(idxYesterday, idxToday, precips, dates) {
   let SinceRain = 0;
-  console.log("yes", idxYesterday, idxToday, precips[idxYesterday - 1]);
+
   for (let i = idxYesterday; i >= 0; i--) {
     if (precips[i] > 0) break;
     SinceRain++;
@@ -149,7 +149,6 @@ function getRainData(idxYesterday, idxToday, precips, dates) {
 
   let nRain = "None in next 7 days";
   for (let i = idxToday + 1; i < precips.length; i++) {
-
     if (precips[i] > 0) {
       const nextDate = new Date(dates[i + 1]);
       nRain = nextDate.toDateString();
@@ -213,7 +212,6 @@ export function displayStoredWateredTime() {
 }
 
 function wateredToday(last) {
-
   if (!last) return false;
 
   const lastDate = new Date(last);
@@ -227,7 +225,6 @@ function wateredToday(last) {
 }
 
 export function wateredYesterday(last) {
-
   if (!last) return false;
 
   const lastDate = new Date(last);
