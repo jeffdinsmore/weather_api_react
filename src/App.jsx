@@ -1,7 +1,5 @@
 import { useState } from "react";
 import { useEffect } from "react";
-import reactLogo from "./assets/react.svg";
-import viteLogo from "/vite.svg";
 import "./App.css";
 import {
   setObject,
@@ -16,8 +14,6 @@ function App() {
   const [tempTomorrow, setTempTomorrow] = useState("");
   const [daysSinceRain, setDaysSinceRain] = useState("");
   const [nextRain, setNextRain] = useState("");
-  const [lastWatered, setLastWatered] = useState("");
-  const [dateToday, setDateToday] = useState("");
   const [isWateredToday, setIsWateredToday] = useState("");
   const [apiTooManyTimes, setApiTooManyTimes] = useState("");
   const [isVisible, setIsVisible] = useState("");
@@ -32,7 +28,6 @@ function App() {
     async function loadData() {
       const data = await fetchWeatherData(
         setWeather,
-        setDateToday,
         setTempToday,
         setTempYesterday,
         setTempTomorrow,
@@ -47,7 +42,6 @@ function App() {
     displayStoredWateredTime();
   }, []);
 
-  //const [count, setCount] = useState(0);
   console.log("my oh my", weather, isVisible);
   /*<div className="card">
         <button onClick={() => setCount((count) => count + 1)}>
@@ -101,9 +95,7 @@ function App() {
       </div>
       <button
         id="water-button"
-        onClick={() =>
-          updateWateredTimestamp(setWeather, setLastWatered, setIsWateredToday)
-        }
+        onClick={() => updateWateredTimestamp(setWeather, setIsWateredToday)}
         disabled={isWateredToday}
       >
         I watered the plants
