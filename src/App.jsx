@@ -63,16 +63,16 @@ function App() {
             °F
           </p>
           <p>
-            Yesterday's Temperature:{" "}
-            <span id="temp-yesterday">
-              {tempYesterday ? tempYesterday : "Loading..."}
+            Tomorrow's Temperature:{" "}
+            <span id="temp-tomorrow">
+              {tempTomorrow ? tempTomorrow : "Loading..."}
             </span>
             °F
           </p>
           <p>
-            Tomorrow's Temperature:{" "}
-            <span id="temp-tomorrow">
-              {tempTomorrow ? tempTomorrow : "Loading..."}
+            Yesterday's Temperature:{" "}
+            <span id="temp-yesterday">
+              {tempYesterday ? tempYesterday : "Loading..."}
             </span>
             °F
           </p>

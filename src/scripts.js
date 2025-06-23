@@ -55,7 +55,7 @@ export const fetchWeatherData = async (
     new Date(today.getTime() - 10 * 24 * 60 * 60 * 1000)
   );
   const end = formatDate(new Date(today.getTime() + 7 * 24 * 60 * 60 * 1000));
-
+  console.log("start", start, end, formatDate);
   const url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&daily=temperature_2m_max,precipitation_sum&temperature_unit=fahrenheit&timezone=auto&start_date=${start}&end_date=${end}`;
 
   if (weatherObject.apiCalls < 600) {
@@ -113,7 +113,8 @@ export const fetchWeatherData = async (
 };
 
 function setTheDate(weatherObject, setWeather) {
-  const today = new Date().toISOString().substring(0, 10).trim();
+  const today = convertDate().substring(0, 10);
+
   let tempObject = weatherObject;
   const date = tempObject.date ? tempObject.date.trim() : tempObject.date;
 
@@ -163,11 +164,11 @@ function getRainData(idxYesterday, idxToday, precips, dates) {
 }
 
 export function updateWateredTimestamp(setWeather, setIsWateredToday) {
-  const now = new Date();
+  const now = convertDate();
   let tempObject = JSON.parse(localStorage.getItem("weatherObject"));
-
   tempObject.apiCalls = tempObject.apiCalls;
-  tempObject.lastWatered = now.toISOString();
+  tempObject.lastWatered = now;
+  console.log("temp", now);
   tempObject.date = tempObject.date;
   localStorage.setItem("weatherObject", JSON.stringify(tempObject));
   setWeather((prev) => ({
@@ -177,6 +178,34 @@ export function updateWateredTimestamp(setWeather, setIsWateredToday) {
     date: prev.date,
   }));
   setIsWateredToday(true);
+}
+
+function convertDate() {
+  let today = new Date();
+  return (
+    String(today.getFullYear()) +
+    "-" +
+    (String(today.getMonth() + 1).length < 2
+      ? "0" + String(today.getMonth() + 1)
+      : String(today.getMonth() + 1)) +
+    "-" +
+    (String(today.getDate()).length < 2
+      ? "0" + String(today.getDate())
+      : String(today.getDate())) +
+    "T" +
+    (String(today.getHours()).length < 2
+      ? "0" + String(today.getHours())
+      : String(today.getHours())) +
+    ":" +
+    (String(today.getMinutes()).length < 2
+      ? "0" + String(today.getMinutes())
+      : String(today.getMinutes())) +
+    ":" +
+    (String(today.getSeconds()).length < 2
+      ? "0" + String(today.getSeconds())
+      : String(today.getSeconds())) +
+    ".000Z"
+  );
 }
 
 export function displayStoredWateredTime() {
