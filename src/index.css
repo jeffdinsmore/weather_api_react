@@ -68,21 +68,21 @@ button:focus-visible {
 
 @media (min-width: 410px) {
   h1 {
-    font-size: 2.8rem;
+    font-size: 3.0rem;
   }
   h2 {
     font-size: 2.0rem;
   }
   p {
-    font-size: 1.2rem;
+    font-size: 1.3rem;
   }
   .weather-box {
-    width: 95%;
+    width: 100%;
     padding: 5px;
   }
   
   #water-button {
     padding: 10px;
-    font-size: 1.5rem;
+    font-size: 1.8rem;
   }
 }
