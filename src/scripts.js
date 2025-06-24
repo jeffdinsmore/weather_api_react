@@ -215,7 +215,7 @@ function convertDate(date) {
 
 export function displayStoredWateredTime() {
   let tempObject = JSON.parse(localStorage.getItem("weatherObject"));
-  const last = tempObject.lastWatered ? tempObject.lastWatered : false;
+  const last = tempObject ? tempObject.lastWatered : false;
   if (last) {
     const lastDate = new Date(last);
     if (wateredToday(last)) {
