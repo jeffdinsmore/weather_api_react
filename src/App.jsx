@@ -57,9 +57,9 @@ function App() {
       <div id="weather">
         <div className="weather-box box">
           <h2>Temperature</h2>
-          <p>
+          <p id="temp-today">
             Today's High Temperature:{" "}
-            <span id="temp-today">{tempToday ? tempToday : "Loading..."}</span>
+            <span>{tempToday ? tempToday : "Loading..."}</span>
             °F
           </p>
           <p>

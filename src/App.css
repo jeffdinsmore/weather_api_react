@@ -97,3 +97,7 @@ p {
   color: #ff0000;
   font-size: 24px;
 }
+
+#temp-today {
+  font-weight: bold;
+}

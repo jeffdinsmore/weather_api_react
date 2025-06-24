@@ -48,14 +48,16 @@ export const fetchWeatherData = async (
   yesterday.setDate(today.getDate() - 1);
   const tomorrow = new Date(today);
   tomorrow.setDate(today.getDate() + 1);
+  let tday = convertDate();
 
   // Example client-side tracking
-  const formatDate = (d) => d.toISOString().split("T")[0];
+  const formatDate = (d) => convertDate(d).split("T")[0];
   const start = formatDate(
     new Date(today.getTime() - 10 * 24 * 60 * 60 * 1000)
   );
+  //const start = convertDate(new Date(new Date(tday).getTime() - 10 * 24 * 60 * 60 * 1000)).split("T")[0];
   const end = formatDate(new Date(today.getTime() + 7 * 24 * 60 * 60 * 1000));
-  console.log("start", start, end, formatDate);
+  //const end = convertDate(new Date(new Date(tday).getTime() + 7 * 24 * 60 * 60 * 1000)).split("T")[0];
   const url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&daily=temperature_2m_max,precipitation_sum&temperature_unit=fahrenheit&timezone=auto&start_date=${start}&end_date=${end}`;
 
   if (weatherObject.apiCalls < 600) {
@@ -108,7 +110,6 @@ export const fetchWeatherData = async (
   } else {
     console.log("You haven't watered the plants today.");
   }
-  console.log("we", weatherObject);
   return weatherObject;
 };
 
@@ -168,7 +169,6 @@ export function updateWateredTimestamp(setWeather, setIsWateredToday) {
   let tempObject = JSON.parse(localStorage.getItem("weatherObject"));
   tempObject.apiCalls = tempObject.apiCalls;
   tempObject.lastWatered = now;
-  console.log("temp", now);
   tempObject.date = tempObject.date;
   localStorage.setItem("weatherObject", JSON.stringify(tempObject));
   setWeather((prev) => ({
@@ -180,8 +180,13 @@ export function updateWateredTimestamp(setWeather, setIsWateredToday) {
   setIsWateredToday(true);
 }
 
-function convertDate() {
-  let today = new Date();
+function convertDate(date) {
+  let today;
+  if (date) {
+    today = date;
+  } else {
+    today = new Date();
+  }
   return (
     String(today.getFullYear()) +
     "-" +
