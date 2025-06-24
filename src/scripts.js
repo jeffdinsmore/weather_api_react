@@ -166,7 +166,7 @@ function getRainData(idxYesterday, idxToday, precips, dates) {
       break;
     }
   }
-  return [SinceRain, nRain];
+  return [SinceRain, nRain.substring(0,10)];
 }
 
 export function updateWateredTimestamp(setWeather, setIsWateredToday) {
