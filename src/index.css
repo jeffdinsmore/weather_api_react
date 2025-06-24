@@ -68,12 +68,12 @@ button:focus-visible {
   }
 }
 
-@media (max-width: 440px) {
+@media (max-width: 410px) {
   h1 {
     font-size: 1.2rem;
   }
   p {
-    font-size: .5rem;
+    font-size: 1rem;
   }
   .weather-box {
     width: 95%;
