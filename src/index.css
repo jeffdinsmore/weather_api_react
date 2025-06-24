@@ -66,9 +66,9 @@ button:focus-visible {
   }
 }
 
-@media (min-width: 410px) {
+@media (max-width: 410px) {
   h1 {
-    font-size: 3.0rem;
+    font-size: 2.0rem;
   }
   h2 {
     font-size: 2.0rem;
