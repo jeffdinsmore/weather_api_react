@@ -52,13 +52,13 @@ function App() {
     <>
       <h1>Weather Tracker</h1>
       <p style={{ color: "black" }}>
-        Checking weather for: <strong>Portland, Oregon</strong>
+        Check weather for: <strong>Portland, Oregon</strong>
       </p>
       <div id="weather">
         <div className="weather-box box">
           <h2>Temperature</h2>
           <p id="temp-today">
-            Today's High Temperature:{" "}
+            Today's Temperature:{" "}
             <span>{tempToday ? tempToday : "Loading..."}</span>
             {weather.degrees}
           </p>
