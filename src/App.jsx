@@ -21,6 +21,7 @@ function App() {
     apiCalls: 0,
     lastWatered: null,
     date: null,
+    degrees: null
   });
 
   useEffect(() => {
@@ -35,7 +36,6 @@ function App() {
         setNextRain,
         setApiTooManyTimes,
         setIsVisible,
-        weather
       );
     }
     loadData();
@@ -60,21 +60,21 @@ function App() {
           <p id="temp-today">
             Today's High Temperature:{" "}
             <span>{tempToday ? tempToday : "Loading..."}</span>
-            °F
+            {weather.degrees}
           </p>
           <p>
             Tomorrow's Temperature:{" "}
             <span id="temp-tomorrow">
               {tempTomorrow ? tempTomorrow : "Loading..."}
             </span>
-            °F
+            {weather.degrees}
           </p>
           <p>
             Yesterday's Temperature:{" "}
             <span id="temp-yesterday">
               {tempYesterday ? tempYesterday : "Loading..."}
             </span>
-            °F
+            {weather.degrees}
           </p>
         </div>
         <div className="weather-box box">

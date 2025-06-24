@@ -3,7 +3,7 @@ export function setObject(setWeather, weather) {
   try {
     weatherObject = JSON.parse(localStorage.getItem("weatherObject"));
   } catch (error) {
-    console.error("Error parsing appData:", error);
+    console.error("Error parsing weatherObject:", error);
     weatherObject = null;
   }
   if (!weatherObject) {
@@ -12,6 +12,7 @@ export function setObject(setWeather, weather) {
       apiCalls: 0,
       lastWatered: new Date("2025-06-15T20:00:00.000Z"),
       date: null,
+      degrees: null
     };
     localStorage.setItem("weatherObject", JSON.stringify(weatherObject));
     console.log("Object has been created and saved successfully");
@@ -23,6 +24,7 @@ export function setObject(setWeather, weather) {
     apiCalls: weatherObject.apiCalls,
     lastWatered: weatherObject.lastWatered,
     date: weatherObject.date,
+    degrees: weatherObject.degrees
   }));
 }
 
@@ -34,8 +36,7 @@ export const fetchWeatherData = async (
   setDaysSinceRain,
   setNextRain,
   setApiTooManyTimes,
-  setIsVisible,
-  weather
+  setIsVisible
 ) => {
   let weatherObject = JSON.parse(localStorage.getItem("weatherObject"));
   const lat = 45.523064; // Updated Portland latitude
@@ -85,12 +86,14 @@ export const fetchWeatherData = async (
       weatherObject.apiCalls += 1;
       weatherObject.date = weatherObject.date;
       weatherObject.lastWatered = weatherObject.lastWatered;
+      weatherObject.degrees = weatherObject.degrees;
 
       setWeather((prev) => ({
         ...prev,
         apiCalls: prev.apiCalls + 1,
         lastWatered: prev.lastWatered,
         date: prev.date,
+        degrees: data.daily_units.temperature_2m_max
       }));
       localStorage.setItem("weatherObject", JSON.stringify(weatherObject));
       console.log(`API has been called ${weatherObject.apiCalls} times today`);
@@ -123,6 +126,7 @@ function setTheDate(weatherObject, setWeather) {
     tempObject.apiCalls = 1;
     tempObject.lastWatered = tempObject.lastWatered;
     tempObject.date = today;
+    tempObject.degrees = tempObject.degrees;
     localStorage.setItem("weatherObject", JSON.stringify(tempObject));
 
     setWeather((prev) => ({
@@ -130,6 +134,7 @@ function setTheDate(weatherObject, setWeather) {
       apiCalls: 1,
       lastWatered: prev.lastWatered,
       date: today,
+      degrees: prev.degrees
     }));
     console.log("Date set successfully");
   } else {
@@ -170,12 +175,14 @@ export function updateWateredTimestamp(setWeather, setIsWateredToday) {
   tempObject.apiCalls = tempObject.apiCalls;
   tempObject.lastWatered = now;
   tempObject.date = tempObject.date;
+  tempObject.degrees = tempObject.degrees;
   localStorage.setItem("weatherObject", JSON.stringify(tempObject));
   setWeather((prev) => ({
     ...prev,
     apiCalls: prev.apiCalls,
     lastWatered: tempObject.lastWatered,
     date: prev.date,
+    degrees: prev.degrees
   }));
   setIsWateredToday(true);
 }
@@ -254,7 +261,7 @@ function wateredToday(last) {
   );
 }
 
-export function wateredYesterday(last) {
+function wateredYesterday(last) {
   if (!last) return false;
 
   const lastDate = new Date(last);
