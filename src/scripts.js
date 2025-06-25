@@ -236,12 +236,13 @@ export function displayStoredWateredTime() {
       const diffHours = Math.floor(
         (diffMs % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
       );
-
+      let day = diffDays > 1 ? " days" : " day";
+      let hour = diffHours > 1 ? " hours" : " hour";
       return (
         diffDays.toString() +
-        " day(s) and " +
+        day + " and " +
         diffHours.toString() +
-        " hour(s) ago"
+        hour + " ago"
       );
     }
   }
