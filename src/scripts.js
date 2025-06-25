@@ -86,7 +86,7 @@ export const fetchWeatherData = async (
       weatherObject.apiCalls += 1;
       weatherObject.date = weatherObject.date;
       weatherObject.lastWatered = weatherObject.lastWatered;
-      weatherObject.degrees = weatherObject.degrees;
+      weatherObject.degrees = data.daily_units.temperature_2m_max;
 
       setWeather((prev) => ({
         ...prev,
