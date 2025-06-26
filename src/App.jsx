@@ -42,7 +42,7 @@ function App() {
     displayStoredWateredTime();
   }, []);
 
-  console.log("my oh my", weather, isVisible);
+  console.log("my oh my", weather, JSON.parse(localStorage.getItem("weatherObject")), isVisible);
   /*<div className="card">
         <button onClick={() => setCount((count) => count + 1)}>
           count is {count}

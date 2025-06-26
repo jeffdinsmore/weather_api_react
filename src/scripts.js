@@ -236,8 +236,8 @@ export function displayStoredWateredTime() {
       const diffHours = Math.floor(
         (diffMs % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
       );
-      let day = diffDays > 1 ? " days" : " day";
-      let hour = diffHours > 1 ? " hours" : " hour";
+      let day = diffDays === 1 ? " day" : " days";
+      let hour = diffHours === 1 ? " hour" : " hours";
       return (
         diffDays.toString() +
         day + " and " +
