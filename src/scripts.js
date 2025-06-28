@@ -161,12 +161,12 @@ function getRainData(idxYesterday, idxToday, precips, dates) {
       const nextDate = new Date(dates[i + 1]);
       nRain = nextDate.toDateString();
       if (wateredToday(nRain)) {
-        nRain = "Today, " + nRain;
+        nRain = "Today, " + nRain.substring(0,10);
       }
       break;
     }
   }
-  return [SinceRain, nRain.substring(0,10)];
+  return [SinceRain, nRain];
 }
 
 export function updateWateredTimestamp(setWeather, setIsWateredToday) {
