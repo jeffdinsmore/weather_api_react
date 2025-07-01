@@ -170,7 +170,7 @@ function getRainData(idxYesterday, idxToday, precips, dates) {
 }
 
 export function updateWateredTimestamp(setWeather, setIsWateredToday) {
-  const now = convertDate("2025-06-30T23:29:02.000");
+  const now = convertDate();
   let tempObject = JSON.parse(localStorage.getItem("weatherObject"));
   tempObject.apiCalls = tempObject.apiCalls;
   tempObject.lastWatered = now;
