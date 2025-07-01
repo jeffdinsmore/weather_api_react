@@ -10,9 +10,9 @@ export function setObject(setWeather, weather) {
     // First-time setup
     weatherObject = {
       apiCalls: 0,
-      lastWatered: new Date("2025-06-15T20:00:00.000Z"),
+      lastWatered: new Date("2025-06-30T23:29:02.000"),
       date: null,
-      degrees: null
+      degrees: null,
     };
     localStorage.setItem("weatherObject", JSON.stringify(weatherObject));
     console.log("Object has been created and saved successfully");
@@ -24,7 +24,7 @@ export function setObject(setWeather, weather) {
     apiCalls: weatherObject.apiCalls,
     lastWatered: weatherObject.lastWatered,
     date: weatherObject.date,
-    degrees: weatherObject.degrees
+    degrees: weatherObject.degrees,
   }));
 }
 
@@ -93,7 +93,7 @@ export const fetchWeatherData = async (
         apiCalls: prev.apiCalls + 1,
         lastWatered: prev.lastWatered,
         date: prev.date,
-        degrees: data.daily_units.temperature_2m_max
+        degrees: data.daily_units.temperature_2m_max,
       }));
       localStorage.setItem("weatherObject", JSON.stringify(weatherObject));
       console.log(`API has been called ${weatherObject.apiCalls} times today`);
@@ -134,7 +134,7 @@ function setTheDate(weatherObject, setWeather) {
       apiCalls: 1,
       lastWatered: prev.lastWatered,
       date: today,
-      degrees: prev.degrees
+      degrees: prev.degrees,
     }));
     console.log("Date set successfully");
   } else {
@@ -161,7 +161,7 @@ function getRainData(idxYesterday, idxToday, precips, dates) {
       const nextDate = new Date(dates[i + 1]);
       nRain = nextDate.toDateString();
       if (wateredToday(nRain)) {
-        nRain = "Today, " + nRain.substring(0,10);
+        nRain = "Today, " + nRain.substring(0, 10);
       }
       break;
     }
@@ -170,7 +170,7 @@ function getRainData(idxYesterday, idxToday, precips, dates) {
 }
 
 export function updateWateredTimestamp(setWeather, setIsWateredToday) {
-  const now = convertDate();
+  const now = convertDate("2025-06-30T23:29:02.000");
   let tempObject = JSON.parse(localStorage.getItem("weatherObject"));
   tempObject.apiCalls = tempObject.apiCalls;
   tempObject.lastWatered = now;
@@ -182,7 +182,7 @@ export function updateWateredTimestamp(setWeather, setIsWateredToday) {
     apiCalls: prev.apiCalls,
     lastWatered: tempObject.lastWatered,
     date: prev.date,
-    degrees: prev.degrees
+    degrees: prev.degrees,
   }));
   setIsWateredToday(true);
 }
@@ -190,7 +190,7 @@ export function updateWateredTimestamp(setWeather, setIsWateredToday) {
 function convertDate(date) {
   let today;
   if (date) {
-    today = date;
+    today = new Date(date);
   } else {
     today = new Date();
   }
@@ -216,7 +216,7 @@ function convertDate(date) {
     (String(today.getSeconds()).length < 2
       ? "0" + String(today.getSeconds())
       : String(today.getSeconds())) +
-    ".000Z"
+    ".000"
   );
 }
 
@@ -240,9 +240,11 @@ export function displayStoredWateredTime() {
       let hour = diffHours === 1 ? " hour" : " hours";
       return (
         diffDays.toString() +
-        day + " and " +
+        day +
+        " and " +
         diffHours.toString() +
-        hour + " ago"
+        hour +
+        " ago"
       );
     }
   }
@@ -267,9 +269,11 @@ function wateredYesterday(last) {
 
   const lastDate = new Date(last);
   const today = new Date();
+  const yesterday = new Date();
+  yesterday.setDate(today.getDate() - 1);
   return (
-    lastDate.getFullYear() === today.getFullYear() &&
-    lastDate.getMonth() === today.getMonth() &&
-    lastDate.getDate() === today.getDate() - 1
+    lastDate.getFullYear() === yesterday.getFullYear() &&
+    lastDate.getMonth() === yesterday.getMonth() &&
+    lastDate.getDate() === yesterday.getDate()
   );
 }
