@@ -89,7 +89,7 @@ export const fetchWeatherData = async (
       weatherObject.date = weatherObject.date;
       weatherObject.lastWatered = weatherObject.lastWatered;
       weatherObject.degrees = data.daily_units.temperature_2m_max;
-      weatherObject.lastRain = "2025-06-21";
+      weatherObject.lastRain = weatherObject.lastRain;
 
       setWeather((prev) => ({
         ...prev,
@@ -97,7 +97,7 @@ export const fetchWeatherData = async (
         lastWatered: prev.lastWatered,
         date: prev.date,
         degrees: data.daily_units.temperature_2m_max,
-        lastRain: "2025-06-21"
+        lastRain: prev.lastRain
       }));
       localStorage.setItem("weatherObject", JSON.stringify(weatherObject));
       console.log(`API has been called ${weatherObject.apiCalls} times today`);
