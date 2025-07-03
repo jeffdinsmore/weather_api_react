@@ -103,7 +103,7 @@ function App() {
       >
         I watered the plants
       </button>
-      <p id="last-watered">{displayStoredWateredTime(setWeather)}</p>
+      <p id="last-watered">{displayStoredWateredTime()}</p>
       {isVisible && (
         <div className="weather-box box">
           <span className="too-many-times">{apiTooManyTimes}</span>
