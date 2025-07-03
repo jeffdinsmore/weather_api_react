@@ -13,6 +13,7 @@ export function setObject(setWeather, weather) {
       lastWatered: new Date("2025-06-30T23:29:02.000"),
       date: null,
       degrees: null,
+      lastRain: null
     };
     localStorage.setItem("weatherObject", JSON.stringify(weatherObject));
     console.log("Object has been created and saved successfully");
@@ -25,6 +26,7 @@ export function setObject(setWeather, weather) {
     lastWatered: weatherObject.lastWatered,
     date: weatherObject.date,
     degrees: weatherObject.degrees,
+    lastRain: weatherObject.lastRain
   }));
 }
 
@@ -87,6 +89,7 @@ export const fetchWeatherData = async (
       weatherObject.date = weatherObject.date;
       weatherObject.lastWatered = weatherObject.lastWatered;
       weatherObject.degrees = data.daily_units.temperature_2m_max;
+      weatherObject.lastRain = "2025-06-21";
 
       setWeather((prev) => ({
         ...prev,
@@ -94,6 +97,7 @@ export const fetchWeatherData = async (
         lastWatered: prev.lastWatered,
         date: prev.date,
         degrees: data.daily_units.temperature_2m_max,
+        lastRain: "2025-06-21"
       }));
       localStorage.setItem("weatherObject", JSON.stringify(weatherObject));
       console.log(`API has been called ${weatherObject.apiCalls} times today`);
@@ -127,6 +131,7 @@ function setTheDate(weatherObject, setWeather) {
     tempObject.lastWatered = tempObject.lastWatered;
     tempObject.date = today;
     tempObject.degrees = tempObject.degrees;
+    tempObject.lastRain = tempObject.lastRain;
     localStorage.setItem("weatherObject", JSON.stringify(tempObject));
 
     setWeather((prev) => ({
@@ -135,6 +140,7 @@ function setTheDate(weatherObject, setWeather) {
       lastWatered: prev.lastWatered,
       date: today,
       degrees: prev.degrees,
+      lastRain: prev.lastRain
     }));
     console.log("Date set successfully");
   } else {
@@ -149,7 +155,7 @@ function setTheDate(weatherObject, setWeather) {
 
 function getRainData(idxYesterday, idxToday, precips, dates) {
   let SinceRain = 0;
-
+  console.log("idxyesssss", idxYesterday);
   for (let i = idxYesterday; i >= 0; i--) {
     if (precips[i] > 0) break;
     SinceRain++;
@@ -176,6 +182,7 @@ export function updateWateredTimestamp(setWeather, setIsWateredToday) {
   tempObject.lastWatered = now;
   tempObject.date = tempObject.date;
   tempObject.degrees = tempObject.degrees;
+  tempObject.lastRain = tempObject.lastRain;
   localStorage.setItem("weatherObject", JSON.stringify(tempObject));
   setWeather((prev) => ({
     ...prev,
@@ -183,6 +190,7 @@ export function updateWateredTimestamp(setWeather, setIsWateredToday) {
     lastWatered: tempObject.lastWatered,
     date: prev.date,
     degrees: prev.degrees,
+    lastRain: prev.lastRain
   }));
   setIsWateredToday(true);
 }
