@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useEffect } from "react";
+import { useWeatherStore } from './weatherStore';
 import "./App.css";
 import {
   setObject,
@@ -9,6 +10,9 @@ import {
 } from "./scripts.js";
 
 function App() {
+  const weather = useWeatherStore((state) => state.weather);
+  const temp = useWeatherStore((state) => state.temperature);
+  const rain = useWeatherStore((state) => state.rain);
   const [tempToday, setTempToday] = useState("");
   const [tempYesterday, setTempYesterday] = useState("");
   const [tempTomorrow, setTempTomorrow] = useState("");
@@ -17,7 +21,7 @@ function App() {
   const [isWateredToday, setIsWateredToday] = useState("");
   const [apiTooManyTimes, setApiTooManyTimes] = useState("");
   const [isVisible, setIsVisible] = useState("");
-  const [weather, setWeather] = useState({
+  const [weather1, setWeather] = useState({
     apiCalls: 0,
     lastWatered: null,
     date: null,
@@ -43,7 +47,7 @@ function App() {
   }, []);
 
   useEffect(() => {
-      console.log("my oh my", weather, JSON.parse(localStorage.getItem("weatherObject")), isVisible);
+      console.log("my oh my", weather1, temp, rain, weather, JSON.parse(localStorage.getItem("weatherObject")), isVisible);
   }, [weather]);
 
   /*<div className="card">
