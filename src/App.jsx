@@ -88,7 +88,7 @@ function App() {
             </span>
           </p>
           <p>
-            Next Expected Rain:{" "}
+            Next Rain:{" "}
             <span id="next-rain">{nextRain ? nextRain : "Loading..."}</span>
           </p>
         </div>
