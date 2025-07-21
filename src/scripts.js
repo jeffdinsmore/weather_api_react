@@ -28,7 +28,7 @@ export function setObject() {
     date: weatherObject.date,
     degrees: weatherObject.degrees,
     lastRain: weatherObject.lastRain,
-    lastWatered: ["2025-06-30T23:29:02.000", "2025-07-06T21:55:14.000", "2025-07-13T10:39:58.000", "2025-07-20T23:34:51.000"],
+    lastWatered: weatherObject.lastWatered,
   });
 }
 
