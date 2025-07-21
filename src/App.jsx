@@ -21,18 +21,11 @@ function App() {
   const [isWateredToday, setIsWateredToday] = useState("");
   const [apiTooManyTimes, setApiTooManyTimes] = useState("");
   const [isVisible, setIsVisible] = useState("");
-  const [weather1, setWeather] = useState({
-    apiCalls: 0,
-    lastWatered: null,
-    date: null,
-    degrees: null
-  });
 
   useEffect(() => {
-    setObject(setWeather, weather);
+    setObject();
     async function loadData() {
       const data = await fetchWeatherData(
-        setWeather,
         setTempToday,
         setTempYesterday,
         setTempTomorrow,
@@ -47,7 +40,7 @@ function App() {
   }, []);
 
   useEffect(() => {
-      console.log("my oh my", weather1, temp, rain, weather, JSON.parse(localStorage.getItem("weatherObject")), isVisible);
+      console.log("my oh my", weather, JSON.parse(localStorage.getItem("weatherObject")), isVisible),temp, rain;
   }, [weather]);
 
   /*<div className="card">
@@ -102,7 +95,7 @@ function App() {
       </div>
       <button
         id="water-button"
-        onClick={() => updateWateredTimestamp(setWeather, setIsWateredToday)}
+        onClick={() => updateWateredTimestamp(setIsWateredToday)}
         disabled={isWateredToday}
       >
         I watered the plants
