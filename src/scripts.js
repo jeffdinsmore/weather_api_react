@@ -152,7 +152,7 @@ function setTheDate(weatherObject) {
 function getRainData(idxToday, idxYesterday, precips, dates) {
   let nRain = "None in the next 7 days";
 
-  const now = convertDate();
+  //const now = convertDate();
   const weather = useWeatherStore.getState().weather;
   let tempObject = { ...weather };
   let SinceRain = 0;
@@ -172,7 +172,7 @@ function getRainData(idxToday, idxYesterday, precips, dates) {
     localStorage.setItem("weatherObject", JSON.stringify(tempObject));
     tempObject = JSON.parse(localStorage.getItem("weatherObject"));
   }
-  
+
   since = getDaysHours(new Date(tempObject.lastRain))[0];
 
   //SinceRain = SinceRain-10 >= since ? SinceRain-10 : since;
@@ -181,7 +181,7 @@ function getRainData(idxToday, idxYesterday, precips, dates) {
 
   for (let i = idxToday; i < precips.length; i++) {
     const [year, month, day] = dates[i].split("-").map(Number);
-    const localDate = new Date(year, month - 1, day);  // Always local
+    const localDate = new Date(year, month - 1, day); // Always local
     //console.log("idxtoooooo", new Date(dates[i] + "T" + "00:00:00.000").toString(), localDate);
     if (precips[i] > 0) {
       const nextDate = new Date(localDate);
@@ -225,7 +225,7 @@ export function updateWateredTimestamp(setIsWateredToday) {
 }
 
 // convert date into readable date configuration
-function convertDate(date) {
+/*function convertDate2(date) {
   let today;
   if (date) {
     today = new Date(date);
@@ -256,6 +256,20 @@ function convertDate(date) {
       : String(today.getSeconds())) +
     ".000"
   );
+}*/
+
+// convert date into readable date configuration
+function convertDate(date) {
+  const today = date ? new Date(date) : new Date();
+
+  const yyyy = String(today.getFullYear());
+  const mm = String(today.getMonth() + 1).padStart(2, "0");
+  const dd = String(today.getDate()).padStart(2, "0");
+  const hh = String(today.getHours()).padStart(2, "0");
+  const min = String(today.getMinutes()).padStart(2, "0");
+  const sec = String(today.getSeconds()).padStart(2, "0");
+
+  return `${yyyy}-${mm}-${dd}T${hh}:${min}:${sec}.000`;
 }
 
 // display the stored watered time for the website

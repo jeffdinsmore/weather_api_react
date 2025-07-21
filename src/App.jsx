@@ -40,7 +40,7 @@ function App() {
   }, []);
 
   useEffect(() => {
-      console.log("my oh my", weather, JSON.parse(localStorage.getItem("weatherObject")), isVisible),temp, rain;
+      console.log("my oh my", weather, JSON.parse(localStorage.getItem("weatherObject")));
   }, [weather]);
 
   /*<div className="card">
