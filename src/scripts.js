@@ -123,18 +123,15 @@ export const fetchWeatherData = async (
 // set the date when website is opened to the local storage and weather object; reset apiCalls
 function setTheDate(weatherObject) {
   const today = convertDate().substring(0, 10);
-
   let tempObject = { ...weatherObject };
-  const date = tempObject.date ? tempObject.date.trim() : tempObject.date;
+  const date = tempObject.date ? tempObject.date.trim() : null;
 
   if (date !== today) {
-    tempObject.apiCalls = 1;
-    tempObject.date = today;
-
     useWeatherStore.getState().setWeather({
       apiCalls: 1,
       date: today,
     });
+    tempObject = { ...useWeatherStore.getState().weather };
     localStorage.setItem("weatherObject", JSON.stringify(tempObject));
 
     console.log("Date set successfully");
@@ -275,13 +272,14 @@ function convertDate(date) {
 // display the stored watered time for the website
 export function displayStoredWateredTime(last) {
   let weather = useWeatherStore.getState().weather;
+  let tempObject = { ...weather };
   //let tempObject = JSON.parse(localStorage.getItem("weatherObject"));
   //const weather = useWeatherStore.getState().weather;
   //console.log("wheater", weather);
 
   if (!last) {
-    last = weather.lastWatered
-      ? weather.lastWatered[weather.lastWatered.length - 1]
+    last = tempObject.lastWatered
+      ? tempObject.lastWatered[tempObject.lastWatered.length - 1]
       : false;
   }
   if (last) {
