@@ -54,7 +54,7 @@ export const fetchWeatherData = async (
 
   setTheDate(weatherObject);
 
-  const today = new Date("2025-07-22");
+  const today = new Date();
   const yesterday = new Date(today);
   yesterday.setDate(today.getDate() - 1);
   const tomorrow = new Date(today);
@@ -112,7 +112,7 @@ export const fetchWeatherData = async (
     );
   }
 
-  if (wateredToday(weatherObject.lastWatered)) {
+  if (wateredToday(weatherObject.lastWatered[weatherObject.lastWatered.length-1])) {
     console.log("Already watered today!");
   } else {
     console.log("You haven't watered the plants today.");
@@ -152,18 +152,17 @@ function getRainData(idxToday, idxYesterday, precips, dates) {
   //const now = convertDate();
   const weather = useWeatherStore.getState().weather;
   let tempObject = { ...weather };
-  //let SinceRain = 0;
+  let SinceRain = 0;
   let since;
 
-  /*for (let i = idxYesterday; i >= 0; i--) {
+  for (let i = idxYesterday; i >= 0; i--) {
     if (precips[i] > 0) break;
-    console.log("let me addhim", SinceRain, i);
     SinceRain++;
-  }*/
-    //console.log("sincerain", SinceRain, idxYesterday);
+  }
+
   //check if rain is today and set rain in weather and local storage
-  if (precips[idxToday] > 0) {
-    tempObject.lastRain = dates[idxToday];
+  if (SinceRain < 10) {
+    tempObject.lastRain = dates[idxYesterday - SinceRain];
     useWeatherStore.getState().setWeather({
       lastRain: tempObject.lastRain,
     });
