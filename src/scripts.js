@@ -54,7 +54,7 @@ export const fetchWeatherData = async (
 
   setTheDate(weatherObject);
 
-  const today = new Date();
+  const today = new Date("2025-07-22");
   const yesterday = new Date(today);
   yesterday.setDate(today.getDate() - 1);
   const tomorrow = new Date(today);
@@ -152,16 +152,17 @@ function getRainData(idxToday, idxYesterday, precips, dates) {
   //const now = convertDate();
   const weather = useWeatherStore.getState().weather;
   let tempObject = { ...weather };
-  let SinceRain = 0;
+  //let SinceRain = 0;
   let since;
 
-  for (let i = idxYesterday; i >= 0; i--) {
+  /*for (let i = idxYesterday; i >= 0; i--) {
     if (precips[i] > 0) break;
+    console.log("let me addhim", SinceRain, i);
     SinceRain++;
-  }
-
+  }*/
+    //console.log("sincerain", SinceRain, idxYesterday);
   //check if rain is today and set rain in weather and local storage
-  if (SinceRain === 10) {
+  if (precips[idxToday] > 0) {
     tempObject.lastRain = dates[idxToday];
     useWeatherStore.getState().setWeather({
       lastRain: tempObject.lastRain,
