@@ -161,13 +161,13 @@ function getRainData(idxToday, idxYesterday, precips, dates) {
   }
 
   //check if rain is today and set rain in weather and local storage
-  if (SinceRain < 10) {
+  if (SinceRain < 10 && tempObject.lastRain) {
     tempObject.lastRain = dates[idxYesterday - SinceRain];
     useWeatherStore.getState().setWeather({
       lastRain: tempObject.lastRain,
     });
     localStorage.setItem("weatherObject", JSON.stringify(tempObject));
-    tempObject = JSON.parse(localStorage.getItem("weatherObject"));
+    //tempObject = JSON.parse(localStorage.getItem("weatherObject"));
   }
 
   since = getDaysHours(new Date(tempObject.lastRain))[0];
