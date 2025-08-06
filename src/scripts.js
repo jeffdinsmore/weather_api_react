@@ -49,7 +49,8 @@ export const fetchWeatherData = async (
   setApiTooManyTimes,
   setIsVisible
 ) => {
-  //let weatherObject = JSON.parse(localStorage.getItem("weatherObject"));
+  const prevDays = 10;
+  const nextDays = 7;
   let weatherObject = useWeatherStore.getState().weather;
   const lat = 45.52447795249103; // Updated Portland latitude
   const lon = -122.6368712593244; // Updated Portland longitude
@@ -65,11 +66,9 @@ export const fetchWeatherData = async (
   // Example client-side tracking
   const formatDate = (d) => convertDate(d).split("T")[0];
   const start = formatDate(
-    new Date(today.getTime() - 10 * 24 * 60 * 60 * 1000)
+    new Date(today.getTime() - prevDays * 24 * 60 * 60 * 1000)
   );
-  //const start = formatDate(new Date("2025-05-01"));
-  //const end = formatDate(new Date("2025-06-01"));
-  const end = formatDate(new Date(today.getTime() + 7 * 24 * 60 * 60 * 1000));
+  const end = formatDate(new Date(today.getTime() + nextDays * 24 * 60 * 60 * 1000));
 
   const url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&daily=temperature_2m_max,precipitation_sum&temperature_unit=fahrenheit&timezone=auto&start_date=${start}&end_date=${end}`;
 
@@ -80,17 +79,16 @@ export const fetchWeatherData = async (
       console.log("data: ", data);
       const dates = data.daily.time;
       const temps = data.daily.temperature_2m_max;
-      //const maxTemp = data.daily.temperature_2m_max[0].toFixed(1);
       const precips = data.daily.precipitation_sum;
-
       const idxToday = dates.indexOf(formatDate(today));
       const idxYesterday = dates.indexOf(formatDate(yesterday));
       const idxTomorrow = dates.indexOf(formatDate(tomorrow));
+
       setTempToday(temps[idxToday].toFixed(1));
       setTempYesterday(temps[idxYesterday].toFixed(1));
       setTempTomorrow(temps[idxTomorrow].toFixed(1));
 
-      let rainData = getRainData(idxToday, idxYesterday, precips, dates);
+      let rainData = getRainData(idxToday, idxYesterday, precips, dates, prevDays);
 
       setDaysSinceRain(rainData[0]);
       setNextRain(rainData[1]);
@@ -148,10 +146,8 @@ function setTheDate(weatherObject) {
 }
 
 // get rain data from the api and/or local storage
-function getRainData(idxToday, idxYesterday, precips, dates) {
+function getRainData(idxToday, idxYesterday, precips, dates, prevDays) {
   let nRain = "None in the next 7 days";
-
-  //const now = convertDate();
   const weather = useWeatherStore.getState().weather;
   let tempObject = { ...weather };
   let SinceRain = 0;
@@ -163,29 +159,25 @@ function getRainData(idxToday, idxYesterday, precips, dates) {
   }
 
   //check if rain is today and set rain in weather and local storage
-
-  if (SinceRain < 10) {
+  if(!tempObject.lastRain && SinceRain >= prevDays){
+    console.log("did this work?");
+    since = "Not Available";
+  } else if (SinceRain < prevDays) {
     tempObject.lastRain = dates[idxYesterday - SinceRain];
     useWeatherStore.getState().setWeather({
       lastRain: tempObject.lastRain,
     });
     localStorage.setItem("weatherObject", JSON.stringify(tempObject));
-    //tempObject = JSON.parse(localStorage.getItem("weatherObject"));
     since = getDaysHours(new Date(tempObject.lastRain))[0];
   } else {
-    since = "Not Available";
+    since = getDaysHours(new Date(tempObject.lastRain))[0];
   }
 
-  
-
-  //SinceRain = SinceRain-10 >= since ? SinceRain-10 : since;
-
   // Get next Rain data from api
-
   for (let i = idxToday; i < precips.length; i++) {
     const [year, month, day] = dates[i].split("-").map(Number);
     const localDate = new Date(year, month - 1, day); // Always local
-    //console.log("idxtoooooo", new Date(dates[i] + "T" + "00:00:00.000").toString(), localDate);
+
     if (precips[i] > 0) {
       const nextDate = new Date(localDate);
       nRain = nextDate.toDateString();
@@ -215,51 +207,13 @@ export function updateWateredTimestamp(setIsWateredToday) {
   const state = useWeatherStore.getState();
   const weather = state.weather;
   let tempObject = { ...weather };
-  //let tempObject = JSON.parse(localStorage.getItem("weatherObject"));
   const updatedWater = [...weather.lastWatered, now];
   tempObject.lastWatered = updatedWater;
 
   state.setWeather({ lastWatered: updatedWater });
-  /*useWeatherStore.getState().setWeather({
-      lastWatered: tempObject.lastWatered,
-    });*/
   localStorage.setItem("weatherObject", JSON.stringify(tempObject));
   setIsWateredToday(true);
 }
-
-// convert date into readable date configuration
-/*function convertDate2(date) {
-  let today;
-  if (date) {
-    today = new Date(date);
-  } else {
-    today = new Date();
-  }
-  return (
-    String(today.getFullYear()) +
-    "-" +
-    (String(today.getMonth() + 1).length < 2
-      ? "0" + String(today.getMonth() + 1)
-      : String(today.getMonth() + 1)) +
-    "-" +
-    (String(today.getDate()).length < 2
-      ? "0" + String(today.getDate())
-      : String(today.getDate())) +
-    "T" +
-    (String(today.getHours()).length < 2
-      ? "0" + String(today.getHours())
-      : String(today.getHours())) +
-    ":" +
-    (String(today.getMinutes()).length < 2
-      ? "0" + String(today.getMinutes())
-      : String(today.getMinutes())) +
-    ":" +
-    (String(today.getSeconds()).length < 2
-      ? "0" + String(today.getSeconds())
-      : String(today.getSeconds())) +
-    ".000"
-  );
-}*/
 
 // convert date into readable date configuration
 function convertDate(date) {
@@ -279,9 +233,6 @@ function convertDate(date) {
 export function displayStoredWateredTime(last) {
   let weather = useWeatherStore.getState().weather;
   let tempObject = { ...weather };
-  //let tempObject = JSON.parse(localStorage.getItem("weatherObject"));
-  //const weather = useWeatherStore.getState().weather;
-  //console.log("wheater", weather);
 
   if (!last) {
     last = tempObject.lastWatered
