@@ -163,10 +163,8 @@ function getRainData(idxToday, idxYesterday, precips, dates) {
   }
 
   //check if rain is today and set rain in weather and local storage
-  if(!tempObject.lastRain){
-    console.log("Yup, it works", tempObject.lastRain);
-  }
-  if (SinceRain < 10 && tempObject.lastRain) {
+
+  if (SinceRain < 10) {
     tempObject.lastRain = dates[idxYesterday - SinceRain];
     useWeatherStore.getState().setWeather({
       lastRain: tempObject.lastRain,
