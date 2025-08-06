@@ -21,6 +21,8 @@ export function setObject() {
         "2025-07-06T21:55:14.000",
         "2025-07-13T10:39:58.000",
         "2025-07-20T23:34:51.000",
+        "2025-07-28T22:45:05.000",
+        "2025-08-04T22:05:32.000"
       ],
     };
     localStorage.setItem("weatherObject", JSON.stringify(weatherObject));
@@ -161,6 +163,9 @@ function getRainData(idxToday, idxYesterday, precips, dates) {
   }
 
   //check if rain is today and set rain in weather and local storage
+  if(!tempObject.lastRain){
+    console.log("Yup, it works", tempObject.lastRain);
+  }
   if (SinceRain < 10 && tempObject.lastRain) {
     tempObject.lastRain = dates[idxYesterday - SinceRain];
     useWeatherStore.getState().setWeather({
@@ -170,7 +175,7 @@ function getRainData(idxToday, idxYesterday, precips, dates) {
     //tempObject = JSON.parse(localStorage.getItem("weatherObject"));
     since = getDaysHours(new Date(tempObject.lastRain))[0];
   } else {
-    since = "N/A";
+    since = "Not Available";
   }
 
   
