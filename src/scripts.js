@@ -168,9 +168,12 @@ function getRainData(idxToday, idxYesterday, precips, dates) {
     });
     localStorage.setItem("weatherObject", JSON.stringify(tempObject));
     //tempObject = JSON.parse(localStorage.getItem("weatherObject"));
+    since = getDaysHours(new Date(tempObject.lastRain))[0];
+  } else {
+    since = "N/A";
   }
 
-  since = getDaysHours(new Date(tempObject.lastRain))[0];
+  
 
   //SinceRain = SinceRain-10 >= since ? SinceRain-10 : since;
 
