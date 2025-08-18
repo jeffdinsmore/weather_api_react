@@ -110,16 +110,13 @@ function App() {
       
         <div className="weather-box box">
           <h2>Water Dates</h2>
-          <ul style={{ listStyleType: "none", padding: 0, margin: 8, color: "#222"}}>
-          {weather.lastWatered.map(a => <li>{displayReadableWateredTime(a)}</li>)}
-          {Array.isArray(weather.lastWatered) && weather.lastWatered.length > 0 && (
-  <ul style={{ listStyleType: "none", padding: 0, margin: 8 }}>
-    {weather.lastWatered.map((a, i) => (
-      <li key={i}>{displayReadableWateredTime(a)}</li>
-    ))}
-  </ul>
-)}
-          </ul>
+          {Array.isArray(weather.lastWatered) && weather.lastWatered.length > 0 && 
+          ( <ul className="watered-list">
+            {weather.lastWatered.map((a, i) => (
+            <li style={{ color: "#222" }}key={i}>{displayReadableWateredTime(a)}</li>
+            ))}
+            </ul>
+          )}
         </div>
       
     </>
