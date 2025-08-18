@@ -11,6 +11,7 @@ import {
 
 function App() {
   const weather = useWeatherStore((state) => state.weather);
+  const dailies = useWeatherStore(state => state.weather.lastWatered);
   const temp = useWeatherStore((state) => state.temperature);
   const rain = useWeatherStore((state) => state.rain);
   const [tempToday, setTempToday] = useState("");
@@ -112,7 +113,7 @@ function App() {
           <h2>Water Dates</h2>
           {Array.isArray(weather.lastWatered) && weather.lastWatered.length > 0 && 
           ( <ul className="watered-list">
-            {weather.lastWatered.map((a, i) => (
+            {dailies.map((a, i) => (
             <li style={{ color: "#222" }}key={i}>{displayReadableWateredTime(a)}</li>
             ))}
             </ul>
