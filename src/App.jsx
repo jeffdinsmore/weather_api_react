@@ -6,7 +6,7 @@ import {
   setObject,
   fetchWeatherData,
   displayStoredWateredTime,
-  updateWateredTimestamp,
+  updateWateredTimestamp, displayReadableWateredTime
 } from "./scripts.js";
 
 function App() {
@@ -36,11 +36,12 @@ function App() {
       );
     }
     loadData();
+    displayReadableWateredTime();
     displayStoredWateredTime();
   }, []);
 
   useEffect(() => {
-      console.log("my oh my", weather, JSON.parse(localStorage.getItem("weatherObject")));
+      console.log("my oh my", weather, JSON.parse(localStorage.getItem("weatherObject")), displayReadableWateredTime(weather.lastWatered[0]));
   }, [weather]);
 
   /*<div className="card">
@@ -106,6 +107,14 @@ function App() {
           <span className="too-many-times">{apiTooManyTimes}</span>
         </div>
       )}
+      <div id="weather">
+        <div className="weather-box box">
+          <h3>Water Dates</h3>
+          <ul style={{ listStyleType: "none", padding: 0, margin: 8, textAlign: "left" }}>
+          {weather.lastWatered.map(a => <li style={{marginLeft: 108, marginTop: 4}}>{displayReadableWateredTime(a)}</li>)}
+          </ul>
+        </div>
+      </div>
     </>
   );
 }

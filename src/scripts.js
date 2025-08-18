@@ -160,7 +160,6 @@ function getRainData(idxToday, idxYesterday, precips, dates, prevDays) {
 
   //check if rain is today and set rain in weather and local storage
   if(!tempObject.lastRain && SinceRain >= prevDays){
-    console.log("did this work?");
     since = "Not Available";
   } else if (SinceRain < prevDays) {
     tempObject.lastRain = dates[idxYesterday - SinceRain];
@@ -291,6 +290,14 @@ function wateredYesterday(last) {
     lastDate.getMonth() === yesterday.getMonth() &&
     lastDate.getDate() === yesterday.getDate()
   );
+}
+
+export function displayReadableWateredTime(lastWatered) {
+  const d = new Date(lastWatered);
+  const month = d.toLocaleString('en-US', { month: 'long' });
+  const day = d.getDate();
+  const year = d.getFullYear();
+  return `${month} ${day}, ${year}`;
 }
 
 // used to update local storage. has not been implemented yet
