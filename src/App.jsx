@@ -112,10 +112,14 @@ function App() {
         <div className="weather-box box">
           <h2>Water Dates</h2>
 <ul className="watered-list">
-  {weather.lastWatered.map((a, i) => (
+  {Array.isArray(weather.lastWatered) && weather.lastWatered.length > 0
+    ? weather.lastWatered.map((a, i) => (
         <li style={{ color: "#222" }} key={i}>
           {displayReadableWateredTime(a)}
         </li>
+      ))
+    : Array.from({ length: 4 }).map((_, i) => (
+        <li key={i} style={{ color: "#ccc" }}>Loading...</li>
       ))}
 </ul>
           
