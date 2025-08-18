@@ -107,14 +107,21 @@ function App() {
           <span className="too-many-times">{apiTooManyTimes}</span>
         </div>
       )}
-      <div id="weather">
+      
         <div className="weather-box box">
-          <h3>Water Dates</h3>
-          <ul style={{ listStyleType: "none", padding: 0, margin: 8}}>
+          <h2>Water Dates</h2>
+          <ul style={{ listStyleType: "none", padding: 0, margin: 8, color: "#222"}}>
           {weather.lastWatered.map(a => <li>{displayReadableWateredTime(a)}</li>)}
+          {Array.isArray(weather.lastWatered) && weather.lastWatered.length > 0 && (
+  <ul style={{ listStyleType: "none", padding: 0, margin: 8 }}>
+    {weather.lastWatered.map((a, i) => (
+      <li key={i}>{displayReadableWateredTime(a)}</li>
+    ))}
+  </ul>
+)}
           </ul>
         </div>
-      </div>
+      
     </>
   );
 }
