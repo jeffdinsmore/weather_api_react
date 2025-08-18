@@ -111,9 +111,16 @@ function App() {
       
         <div className="weather-box box">
           <h2>Water Dates</h2>
-          <ul>
-  <li>July 20, 2025</li>
-  <li>July 28, 2025</li>
+<ul className="watered-list">
+  {Array.isArray(weather.lastWatered) && weather.lastWatered.length > 0
+    ? weather.lastWatered.map((a, i) => (
+        <li style={{ color: "#222" }} key={i}>
+          {displayReadableWateredTime(a)}
+        </li>
+      ))
+    : Array.from({ length: 5 }).map((_, i) => (
+        <li key={i} style={{ color: "#ccc" }}>Loading...</li>
+      ))}
 </ul>
           
         </div>
@@ -123,3 +130,10 @@ function App() {
 }
 
 export default App;
+/*{Array.isArray(weather.lastWatered) && weather.lastWatered.length > 0 && 
+          ( <ul className="watered-list">
+            {dailies.map((a, i) => (
+            <li style={{ color: "#222" }}key={i}>{displayReadableWateredTime(a)}</li>
+            ))}
+            </ul>
+          )}*/
