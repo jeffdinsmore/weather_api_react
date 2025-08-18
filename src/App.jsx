@@ -111,13 +111,11 @@ function App() {
       
         <div className="weather-box box">
           <h2>Water Dates</h2>
-          {Array.isArray(weather.lastWatered) && weather.lastWatered.length > 0 && 
-          ( <ul className="watered-list">
-            {dailies.map((a, i) => (
-            <li style={{ color: "#222" }}key={i}>{displayReadableWateredTime(a)}</li>
-            ))}
-            </ul>
-          )}
+          <ul>
+  <li>July 20, 2025</li>
+  <li>July 28, 2025</li>
+</ul>
+          
         </div>
       
     </>
