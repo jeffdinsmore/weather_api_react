@@ -113,19 +113,20 @@ function App() {
       )}
       
         <div className="weather-box box">
-          <h2>Water Dates</h2>
-<ul className="watered-list">
-  {Array.isArray(dailies) && dailies.length > 0
-    ? dailies.map((a, i) => (
-        <li style={{ color: "#222" }} key={i}>
-          {displayReadableWateredTime(a)}
-        </li>
-      ))
-    : Array.from({ length: 4 }).map((_, i) => (
-        <li key={i} style={{ color: "#ccc" }}>Loading...</li>
-      ))}
-</ul>
-          
+          <h2>Watered Dates</h2>
+          <div className="watered-list-container">
+            <ul className="watered-list">
+              {Array.isArray(dailies) && dailies.length > 0 
+              ? dailies.map((a, i) => (
+                <li style={{ color: "#222" }} key={i}>
+                  {displayReadableWateredTime(a)}
+                </li>
+              ))
+              : Array.from({ length: 4 }).map((_, i) => (
+                <li key={i} style={{ color: "#ccc" }}>Loading...</li>
+                ))}
+            </ul>
+          </div>
         </div>
       
     </>

@@ -71,6 +71,11 @@ h1 {
   min-height: 180px;
 }
 
+.watered-list-container {
+  max-height: 300px;
+  overflow-y: auto;
+}
+
 .watered-list li {
   opacity: 0;
   animation: fadeIn 0.3s ease forwards;
