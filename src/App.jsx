@@ -128,7 +128,9 @@ function App() {
             </ul>
           </div>
         </div>
-      
+      <footer style={{ height: "60px", backgroundColor: "#f2f2f2" }}>
+        <p style={{ textAlign: "center", color: "#555" }}>End of page</p>
+      </footer>
     </>
   );
 }
