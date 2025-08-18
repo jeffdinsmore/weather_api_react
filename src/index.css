@@ -29,6 +29,7 @@ body {
   min-width: 320px;
   min-height: 100vh;
   overflow-anchor: none;
+  will-change: transform;
 }
 html {
   overflow-anchor: none;
