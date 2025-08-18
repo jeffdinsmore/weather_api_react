@@ -110,8 +110,8 @@ function App() {
       <div id="weather">
         <div className="weather-box box">
           <h3>Water Dates</h3>
-          <ul style={{ listStyleType: "none", padding: 0, margin: 8, textAlign: "left" }}>
-          {weather.lastWatered.map(a => <li style={{marginLeft: 108, marginTop: 4}}>{displayReadableWateredTime(a)}</li>)}
+          <ul style={{ listStyleType: "none", padding: 0, margin: 8}}>
+          {weather.lastWatered.map(a => <li>{displayReadableWateredTime(a)}</li>)}
           </ul>
         </div>
       </div>
