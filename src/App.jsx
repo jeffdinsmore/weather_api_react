@@ -39,11 +39,14 @@ function App() {
     loadData();
     displayReadableWateredTime();
     displayStoredWateredTime();
+    setTimeout(() => {
+    window.scrollTo(0, window.scrollY); // Freeze current scroll position
+  }, 500); // Wait for layout to settle
   }, []);
 
-  /*useEffect(() => {
+  useEffect(() => {
       console.log("my oh my", weather, JSON.parse(localStorage.getItem("weatherObject")), displayReadableWateredTime(weather.lastWatered[0]));
-  }, [weather]);*/
+  }, [weather]);
 
   /*<div className="card">
         <button onClick={() => setCount((count) => count + 1)}>
