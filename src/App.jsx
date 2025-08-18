@@ -41,9 +41,9 @@ function App() {
     displayStoredWateredTime();
   }, []);
 
-  useEffect(() => {
+  /*useEffect(() => {
       console.log("my oh my", weather, JSON.parse(localStorage.getItem("weatherObject")), displayReadableWateredTime(weather.lastWatered[0]));
-  }, [weather]);
+  }, [weather]);*/
 
   /*<div className="card">
         <button onClick={() => setCount((count) => count + 1)}>
@@ -112,8 +112,8 @@ function App() {
         <div className="weather-box box">
           <h2>Water Dates</h2>
 <ul className="watered-list">
-  {Array.isArray(weather.lastWatered) && weather.lastWatered.length > 0
-    ? weather.lastWatered.map((a, i) => (
+  {Array.isArray(dailies) && dailies.length > 0
+    ? dailies.map((a, i) => (
         <li style={{ color: "#222" }} key={i}>
           {displayReadableWateredTime(a)}
         </li>
