@@ -53,11 +53,6 @@ function App() {
     );
   }, [weather]);
 
-  /*<div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-      </div>*/
   return (
     <>
       <div id="main">
@@ -124,7 +119,7 @@ function App() {
             <ul className="watered-list">
               {Array.isArray(dailies) && dailies.length > 0
                 ? dailies.map((a, i) => (
-                    <li style={{ color: "#222" }} key={i}>
+                    <li style={{ color: "#2d5d34" }} key={i}>
                       {displayReadableWateredTime(a)}
                     </li>
                   ))
