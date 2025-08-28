@@ -294,10 +294,15 @@ function wateredYesterday(last) {
 
 export function displayReadableWateredTime(lastWatered) {
   const d = new Date(lastWatered);
+  const time = d.toLocaleTimeString('en-US', {
+    hour: 'numeric',
+    minute: '2-digit',
+    hour12: true
+  });
   const month = d.toLocaleString('en-US', { month: 'long' });
   const day = d.getDate();
   const year = d.getFullYear();
-  return `${month} ${day}, ${year}`;
+  return `${month} ${day}, ${year} - ${time}`;
 }
 
 // used to update local storage. has not been implemented yet
