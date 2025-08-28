@@ -55,6 +55,7 @@ function App() {
       </div>*/
   return (
     <>
+      <div id="main">
       <h1>Weather Tracker</h1>
       <p style={{ color: "black" }}>
         Check weather for: <strong>Portland, Oregon</strong>
@@ -128,10 +129,9 @@ function App() {
             </ul>
           </div>
         </div>
-        <div style={{ height: "4px" }} />
-      <footer style={{ height: "60px", backgroundColor: "#f2f2f2" }}>
-        <p style={{ textAlign: "center", color: "#555" }}>End of page</p>
-      </footer>
+        
+        </div>
+      
     </>
   );
 }
@@ -143,4 +143,9 @@ export default App;
             <li style={{ color: "#222" }}key={i}>{displayReadableWateredTime(a)}</li>
             ))}
             </ul>
-          )}*/
+          )}
+            
+          <footer style={{ height: "60px", backgroundColor: "#f2f2f2" }}>
+        <p style={{ textAlign: "center", color: "#555" }}></p>
+      </footer>
+      <div style={{ height: "4px" }} />*/
