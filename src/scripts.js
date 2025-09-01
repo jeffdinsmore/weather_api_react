@@ -15,7 +15,13 @@ export function setObject() {
       apiCalls: 0,
       date: null,
       degrees: null,
-      lastRain: [],
+      lastRain: [
+        "2025-06-22",
+        "2025-07-21",
+        "2025-08-06",
+        "2025-08-15",
+        "2025-08-16",
+      ],
       lastWatered: [
         "2025-06-30T23:29:02.000",
         "2025-07-06T21:55:14.000",
@@ -25,7 +31,7 @@ export function setObject() {
         "2025-08-04T22:05:32.000",
         "2025-08-11T22:18:37.000",
         "2025-08-21T17:49:22.000",
-        "2025-08-26T16:03:14.000"
+        "2025-08-26T16:03:14.000",
       ],
     };
     localStorage.setItem("weatherObject", JSON.stringify(weatherObject));
@@ -71,7 +77,9 @@ export const fetchWeatherData = async (
   const start = formatDate(
     new Date(today.getTime() - prevDays * 24 * 60 * 60 * 1000)
   );
-  const end = formatDate(new Date(today.getTime() + nextDays * 24 * 60 * 60 * 1000));
+  const end = formatDate(
+    new Date(today.getTime() + nextDays * 24 * 60 * 60 * 1000)
+  );
   console.log("start", start, "end", end);
   const url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&daily=temperature_2m_max,precipitation_sum&temperature_unit=fahrenheit&timezone=auto&start_date=${start}&end_date=${end}`;
 
@@ -91,7 +99,13 @@ export const fetchWeatherData = async (
       setTempYesterday(temps[idxYesterday].toFixed(1));
       setTempTomorrow(temps[idxTomorrow].toFixed(1));
 
-      let rainData = getRainData(idxToday, idxYesterday, precips, dates, prevDays);
+      let rainData = getRainData(
+        idxToday,
+        idxYesterday,
+        precips,
+        dates,
+        prevDays
+      );
 
       setDaysSinceRain(rainData[0]);
       setNextRain(rainData[1]);
@@ -115,7 +129,11 @@ export const fetchWeatherData = async (
     );
   }
 
-  if (wateredToday(weatherObject.lastWatered[weatherObject.lastWatered.length-1])) {
+  if (
+    wateredToday(
+      weatherObject.lastWatered[weatherObject.lastWatered.length - 1]
+    )
+  ) {
     console.log("Already watered today!");
   } else {
     console.log("You haven't watered the plants today.");
@@ -162,23 +180,28 @@ function getRainData(idxToday, idxYesterday, precips, dates, prevDays) {
   }
 
   //check if rain is today and set rain in weather and local storage
-  if(!tempObject.lastRain && SinceRain >= prevDays){
+  if (!tempObject.lastRain && SinceRain >= prevDays) {
     since = "Not Available";
   } else if (SinceRain < prevDays) {
-      if (dates[idxYesterday - SinceRain] !== tempObject.lastRain[tempObject.lastRain.length-1]) {
+    if (
+      dates[idxYesterday - SinceRain] !==
+      tempObject.lastRain[tempObject.lastRain.length - 1]
+    ) {
       tempObject.lastRain.push(dates[idxYesterday - SinceRain]);
       useWeatherStore.getState().setWeather({
         lastRain: tempObject.lastRain,
       });
       localStorage.setItem("weatherObject", JSON.stringify(tempObject));
-      since = getDaysHours(new Date(tempObject.lastRain[tempObject.lastRain.length-1]))[0];
-      console.log("since", since);
-      }
+      since = getDaysHours(
+        new Date(tempObject.lastRain[tempObject.lastRain.length - 1])
+      )[0];
+    }
   } else {
-    since = getDaysHours(new Date(tempObject.lastRain[tempObject.lastRain.length-1]))[0];
-    console.log("since", since);
+    since = getDaysHours(
+      new Date(tempObject.lastRain[tempObject.lastRain.length - 1])
+    )[0];
   }
-    console.log("since", since);
+
   // Get next Rain data from api
   for (let i = idxToday; i < precips.length; i++) {
     const [year, month, day] = dates[i].split("-").map(Number);
@@ -301,12 +324,12 @@ function wateredYesterday(last) {
 
 export function displayReadableWateredTime(lastWatered) {
   const d = new Date(lastWatered);
-  const time = d.toLocaleTimeString('en-US', {
-    hour: 'numeric',
-    minute: '2-digit',
-    hour12: true
+  const time = d.toLocaleTimeString("en-US", {
+    hour: "numeric",
+    minute: "2-digit",
+    hour12: true,
   });
-  const month = d.toLocaleString('en-US', { month: 'long' });
+  const month = d.toLocaleString("en-US", { month: "long" });
   const day = d.getDate();
   const year = d.getFullYear();
   return `${month} ${day}, ${year} - ${time}`;
