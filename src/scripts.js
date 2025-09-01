@@ -329,7 +329,7 @@ export function displayReadableWateredTime(lastWatered) {
     minute: "2-digit",
     hour12: true,
   });
-  const month = d.toLocaleString("en-US", { month: "long" });
+  const month = d.toLocaleString("en-US", { month: "short" });
   const day = d.getDate();
   const year = d.getFullYear();
   return `${month} ${day}, ${year}`;
