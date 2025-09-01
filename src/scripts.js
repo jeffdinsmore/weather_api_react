@@ -37,7 +37,7 @@ export function setObject() {
     apiCalls: weatherObject.apiCalls,
     date: weatherObject.date,
     degrees: weatherObject.degrees,
-    lastRain: [],
+    lastRain: weatherObject.lastRain,
     lastWatered: weatherObject.lastWatered,
   });
 }
@@ -156,29 +156,23 @@ function getRainData(idxToday, idxYesterday, precips, dates, prevDays) {
   let SinceRain = 0;
   let since;
 
-  /*for (let i = idxYesterday; i >= 0; i--) {
+  for (let i = idxYesterday; i >= 0; i--) {
     if (precips[i] > 0) break;
     SinceRain++;
-  }*/
-
-    for (let i = 0; i < prevDays; i++) {
-      if(precips[i] > 0 && tempObject.lastRain.length < 5) {
-        tempObject.lastRain.push(dates[i]);
-      }
-    }
+  }
 
   //check if rain is today and set rain in weather and local storage
   if(!tempObject.lastRain && SinceRain >= prevDays){
     since = "Not Available";
   } else if (SinceRain < prevDays) {
-      /*if (dates[idxYesterday - SinceRain] !== tempObject.lastRain[tempObject.lastRain.length-1]) {
-      tempObject.lastRain.push(dates[idxYesterday - SinceRain]);*/
+      if (dates[idxYesterday - SinceRain] !== tempObject.lastRain[tempObject.lastRain.length-1]) {
+      tempObject.lastRain.push(dates[idxYesterday - SinceRain]);
       useWeatherStore.getState().setWeather({
         lastRain: tempObject.lastRain,
       });
       localStorage.setItem("weatherObject", JSON.stringify(tempObject));
       since = getDaysHours(new Date(tempObject.lastRain[tempObject.lastRain.length-1]))[0];
-    
+      }
   } else {
     since = getDaysHours(new Date(tempObject.lastRain[tempObject.lastRain.length-1]))[0];
   }
