@@ -236,7 +236,7 @@ export function updateWateredTimestamp(setIsWateredToday) {
   const state = useWeatherStore.getState();
   const weather = state.weather;
   let tempObject = { ...weather };
-  const updatedWater = tempObject.lastWatered.slice(0,-1);
+  const updatedWater = [...weather.lastWatered, now];
   tempObject.lastWatered = updatedWater;
 
   state.setWeather({ lastWatered: updatedWater });
