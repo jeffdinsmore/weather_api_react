@@ -52,7 +52,7 @@ export const fetchWeatherData = async (
   setApiTooManyTimes,
   setIsVisible
 ) => {
-  const prevDays = 72;
+  const prevDays = 10;
   const nextDays = 7;
   let weatherObject = useWeatherStore.getState().weather;
   const lat = 45.52447795249103; // Updated Portland latitude
@@ -172,11 +172,13 @@ function getRainData(idxToday, idxYesterday, precips, dates, prevDays) {
       });
       localStorage.setItem("weatherObject", JSON.stringify(tempObject));
       since = getDaysHours(new Date(tempObject.lastRain[tempObject.lastRain.length-1]))[0];
+      console.log("since", since);
       }
   } else {
     since = getDaysHours(new Date(tempObject.lastRain[tempObject.lastRain.length-1]))[0];
+    console.log("since", since);
   }
-
+    console.log("since", since);
   // Get next Rain data from api
   for (let i = idxToday; i < precips.length; i++) {
     const [year, month, day] = dates[i].split("-").map(Number);
