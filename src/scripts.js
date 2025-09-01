@@ -330,7 +330,7 @@ export function displayReadableWateredTime(lastWatered) {
     hour12: true,
   });
   const month = d.toLocaleString("en-US", { month: "short" });
-  const day = d.getDate();
+  const day = d.toLocaleString("en-US", {day: "2-digit"});
   const year = d.getFullYear();
   return `${month} ${day}, ${year}`;
 }
