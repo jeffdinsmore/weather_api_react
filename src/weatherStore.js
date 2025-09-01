@@ -5,7 +5,7 @@ export const useWeatherStore = create((set) => ({
     apiCalls: 0,
     date: "",
     degrees: null,
-    lastRain: null,
+    lastRain: [],
     lastWatered: [],
   },
   setWeather: (newWeather) =>

@@ -15,14 +15,17 @@ export function setObject() {
       apiCalls: 0,
       date: null,
       degrees: null,
-      lastRain: null,
+      lastRain: [],
       lastWatered: [
         "2025-06-30T23:29:02.000",
         "2025-07-06T21:55:14.000",
         "2025-07-13T10:39:58.000",
         "2025-07-20T23:34:51.000",
         "2025-07-28T22:45:05.000",
-        "2025-08-04T22:05:32.000"
+        "2025-08-04T22:05:32.000",
+        "2025-08-11T22:18:37.000",
+        "2025-08-21T17:49:22.000",
+        "2025-08-26T16:03:14.000"
       ],
     };
     localStorage.setItem("weatherObject", JSON.stringify(weatherObject));
@@ -34,7 +37,7 @@ export function setObject() {
     apiCalls: weatherObject.apiCalls,
     date: weatherObject.date,
     degrees: weatherObject.degrees,
-    lastRain: weatherObject.lastRain,
+    lastRain: [],
     lastWatered: weatherObject.lastWatered,
   });
 }
@@ -49,7 +52,7 @@ export const fetchWeatherData = async (
   setApiTooManyTimes,
   setIsVisible
 ) => {
-  const prevDays = 10;
+  const prevDays = 72;
   const nextDays = 7;
   let weatherObject = useWeatherStore.getState().weather;
   const lat = 45.52447795249103; // Updated Portland latitude
@@ -69,7 +72,7 @@ export const fetchWeatherData = async (
     new Date(today.getTime() - prevDays * 24 * 60 * 60 * 1000)
   );
   const end = formatDate(new Date(today.getTime() + nextDays * 24 * 60 * 60 * 1000));
-
+  console.log("start", start, "end", end);
   const url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&daily=temperature_2m_max,precipitation_sum&temperature_unit=fahrenheit&timezone=auto&start_date=${start}&end_date=${end}`;
 
   if (weatherObject.apiCalls < 600) {
@@ -153,23 +156,31 @@ function getRainData(idxToday, idxYesterday, precips, dates, prevDays) {
   let SinceRain = 0;
   let since;
 
-  for (let i = idxYesterday; i >= 0; i--) {
+  /*for (let i = idxYesterday; i >= 0; i--) {
     if (precips[i] > 0) break;
     SinceRain++;
-  }
+  }*/
+
+    for (let i = 0; i < prevDays; i++) {
+      if(precips[i] > 0 && tempObject.lastRain.length < 5) {
+        tempObject.lastRain.push(dates[i]);
+      }
+    }
 
   //check if rain is today and set rain in weather and local storage
   if(!tempObject.lastRain && SinceRain >= prevDays){
     since = "Not Available";
   } else if (SinceRain < prevDays) {
-    tempObject.lastRain = dates[idxYesterday - SinceRain];
-    useWeatherStore.getState().setWeather({
-      lastRain: tempObject.lastRain,
-    });
-    localStorage.setItem("weatherObject", JSON.stringify(tempObject));
-    since = getDaysHours(new Date(tempObject.lastRain))[0];
+      /*if (dates[idxYesterday - SinceRain] !== tempObject.lastRain[tempObject.lastRain.length-1]) {
+      tempObject.lastRain.push(dates[idxYesterday - SinceRain]);*/
+      useWeatherStore.getState().setWeather({
+        lastRain: tempObject.lastRain,
+      });
+      localStorage.setItem("weatherObject", JSON.stringify(tempObject));
+      since = getDaysHours(new Date(tempObject.lastRain[tempObject.lastRain.length-1]))[0];
+    
   } else {
-    since = getDaysHours(new Date(tempObject.lastRain))[0];
+    since = getDaysHours(new Date(tempObject.lastRain[tempObject.lastRain.length-1]))[0];
   }
 
   // Get next Rain data from api
