@@ -332,7 +332,7 @@ export function displayReadableWateredTime(lastWatered) {
   const month = d.toLocaleString("en-US", { month: "long" });
   const day = d.getDate();
   const year = d.getFullYear();
-  return `${month} ${day}, ${year} - ${time}`;
+  return `${month} ${day}, ${year}`;
 }
 
 // used to update local storage. has not been implemented yet

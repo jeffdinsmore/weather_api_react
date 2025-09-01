@@ -13,6 +13,8 @@ import {
 function App() {
   const weather = useWeatherStore((state) => state.weather);
   const dailies = useWeatherStore((state) => state.weather.lastWatered);
+  const lastRained = useWeatherStore((state) => state.weather.lastRain);
+  const lastWatered = useWeatherStore((state) => state.weather.lastWatered);
   const temp = useWeatherStore((state) => state.temperature);
   const rain = useWeatherStore((state) => state.rain);
   const [tempToday, setTempToday] = useState("");
@@ -48,7 +50,8 @@ function App() {
   useEffect(() => {
     console.log(
       "weather",
-      weather, "local storage",
+      weather,
+      "local storage",
       JSON.parse(localStorage.getItem("weatherObject"))
     );
   }, [weather]);
@@ -116,19 +119,40 @@ function App() {
         <div className="weather-box box">
           <div className="watered-list-container">
             <h2>Watered Dates</h2>
-            <ul className="watered-list">
-              {Array.isArray(dailies) && dailies.length > 0
-                ? dailies.map((a, i) => (
-                    <li style={{ color: "#2d5d34" }} key={i}>
-                      {displayReadableWateredTime(a)}
-                    </li>
-                  ))
-                : Array.from({ length: 4 }).map((_, i) => (
-                    <li key={i} style={{ color: "#ccc" }}>
-                      Loading...
-                    </li>
-                  ))}
-            </ul>
+            <div className="columns-container">
+              <div className="column">
+                <h3>Watered</h3>
+                <ul className="watered-list">
+                  {Array.isArray(lastWatered) && lastWatered.length > 0
+                    ? lastWatered.map((a, i) => (
+                        <li style={{ color: "#2d5d34" }} key={i}>
+                          {displayReadableWateredTime(a)}
+                        </li>
+                      ))
+                    : Array.from({ length: 4 }).map((_, i) => (
+                        <li key={i} style={{ color: "#ccc" }}>
+                          Loading...
+                        </li>
+                      ))}
+                </ul>
+              </div>
+              <div className="column">
+                <h3>Rain</h3>
+                <ul className="rain-list">
+                  {Array.isArray(lastRained) && lastRained.length > 0
+                    ? lastRained.map((r, i) => (
+                        <li style={{ color: "#2d5d34" }} key={i}>
+                          {displayReadableWateredTime(r)}
+                        </li>
+                      ))
+                    : Array.from({ length: 4 }).map((_, i) => (
+                        <li key={i} style={{ color: "#ccc" }}>
+                          Loading...
+                        </li>
+                      ))}
+                </ul>
+              </div>
+            </div>
           </div>
         </div>
       </div>
