@@ -2,7 +2,7 @@ import { useWeatherStore } from "./weatherStore";
 
 // set local storage object and weather object when opening page
 export function setObject() {
-  localStorage.removeItem("weatherObject");
+  //localStorage.removeItem("weatherObject");
   let weatherObject;
   try {
     weatherObject = JSON.parse(localStorage.getItem("weatherObject"));
