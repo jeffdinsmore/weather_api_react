@@ -180,9 +180,9 @@ function setTheDate(weatherObject) {
 function getRainData(idxToday, idxYesterday, precips, dates, prevDays) {
   const today = new Date();
   const day = Number(today.getDate());
-  const lastRainDay = Number(new Date(tempObject.lastRain[tempObject.lastRain.length - 1]).getDate());
   let nRain = "None in the next 7 days";
   const weather = useWeatherStore.getState().weather;
+  const lastRainDay = Number(new Date(weather.lastRain[weather.lastRain.length - 1]).getDate());
   let tempObject = { ...weather };
   let SinceRain = 0;
   let since;
