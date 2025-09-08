@@ -91,7 +91,7 @@ h1 {
 
 .watered-list-container {
   overflow-y: auto;
-  padding-bottom: 20px;
+ /*padding-bottom: 20px;*/
 }
 
 .watered-list li {
