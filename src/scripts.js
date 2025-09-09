@@ -183,7 +183,7 @@ function getRainData(idxToday, idxYesterday, precips, dates, prevDays) {
   const day = Number(today.getDate());
   let nRain = "None in the next 7 days";
   const weather = useWeatherStore.getState().weather;
-  const lastRainDay = Number(new Date(weather.lastRain[weather.lastRain.length - 1]).getDate());
+  const lastRainDay = !weather.lastRain ? 0 : Number(new Date(weather.lastRain[weather.lastRain.length - 1]).getDate());
   let tempObject = { ...weather };
   let SinceRain = 0;
   let since;
@@ -192,13 +192,12 @@ function getRainData(idxToday, idxYesterday, precips, dates, prevDays) {
     if (precips[i] > 0) break;
     SinceRain++;
   }
-
   //check if rain is today and set rain in weather and local storage
-  if (!tempObject.lastRain && SinceRain >= prevDays) {
+  if (!tempObject.lastRain[0] && SinceRain >= prevDays) {
     since = "Not Available";
   } else if (SinceRain < prevDays) {
     if (
-      dates[idxYesterday - SinceRain] + "T12:00:00" !==
+      !tempObject.lastRain[0] || dates[idxYesterday - SinceRain] + "T12:00:00" !==
       tempObject.lastRain[tempObject.lastRain.length - 1]
     ) {
       tempObject.lastRain.push(dates[idxYesterday - SinceRain] + "T12:00:00");
