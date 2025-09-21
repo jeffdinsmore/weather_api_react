@@ -43,6 +43,10 @@ export function setObject() {
         "2025-08-21T17:49:22.000",
         "2025-08-26T16:03:14.000",
         "2025-09-02T17:53:06.000",
+        "2025-09-07T22:58:25.000",
+        "2025-09-11T22:58:25.000",
+        "2025-09-18T20:35:22.000",
+
       ],
     };
     localStorage.setItem("weatherObject", JSON.stringify(weatherObject));
@@ -264,7 +268,7 @@ function convertDate(date) {
   const min = String(today.getMinutes()).padStart(2, "0");
   const sec = String(today.getSeconds()).padStart(2, "0");
 
-  return `${"2025"}-${"09"}-${"18"}T${"20"}:${"35"}:${"22"}.000`;
+  return `${yyyy}-${mm}-${dd}T${hh}:${min}:${sec}.000`;
 }
 
 // display the stored watered time for the website

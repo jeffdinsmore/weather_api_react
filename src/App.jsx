@@ -134,6 +134,7 @@ function App() {
                           Loading...
                         </li>
                       ))}
+                      <li>{lastWatered[16]}</li>
                 </ul>
               </div>
               <div className="column">
