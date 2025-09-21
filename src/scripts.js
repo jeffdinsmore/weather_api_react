@@ -264,7 +264,7 @@ function convertDate(date) {
   const min = String(today.getMinutes()).padStart(2, "0");
   const sec = String(today.getSeconds()).padStart(2, "0");
 
-  return `${yyyy}-${mm}-${dd}T${hh}:${min}:${sec}.000`;
+  return `${"2025"}-${"09"}-${"18"}T${"20"}:${"35"}:${"22"}.000`;
 }
 
 // display the stored watered time for the website
