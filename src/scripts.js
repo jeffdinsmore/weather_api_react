@@ -209,9 +209,9 @@ function getRainData(idxToday, idxYesterday, precips, dates, prevDays) {
       });
       localStorage.setItem("weatherObject", JSON.stringify(tempObject));
     }
-    since = day - lastRainDay;
+    since = differentDays(tempObject.lastRain[tempObject.lastRain.length-1]);
   } else {
-    since = day - lastRainDay;
+    since = differentDays(tempObject.lastRain[tempObject.lastRain.length-1]);
   }
   
   // Get next Rain data from api
@@ -268,6 +268,12 @@ function convertDate(date) {
   const sec = String(today.getSeconds()).padStart(2, "0");
 
   return `${yyyy}-${mm}-${dd}T${hh}:${min}:${sec}.000`;
+}
+
+export function differentDays(lastWatered){
+  const today = new Date();
+  const diffMs = today - new Date(lastWatered);
+  return Number(Math.floor(diffMs / (1000 * 60 * 60 * 24)));
 }
 
 // display the stored watered time for the website
